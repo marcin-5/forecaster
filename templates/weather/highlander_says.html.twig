@@ -4,7 +4,9 @@
 
 {% block body %}
     <h1>Highlander says</h1>
-    <p>{{ forecast }}</p>
+    {% for forecast in forecasts %}
+        <p>{{ forecast }}</p>
+    {% endfor %}
 
     <nav>
         <a href="{{ path('app_weather_highlandersays', {'threshold':6}) }}">Try again!</a>

@@ -5,6 +5,7 @@ namespace App\Controller;
 
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\JsonResponse;
+use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
 use Symfony\Component\Routing\Generator\UrlGeneratorInterface;
@@ -25,11 +26,17 @@ class WeatherController extends AbstractController
     }
 
     #[Route('/highlander-says/{threshold<\d+>?5}')]
-    public function highlanderSays(int $threshold): Response
+    public function highlanderSays(int $threshold, Request $request): Response
     {
-        $draw = random_int(0, 10);
-        $forecast = $draw < $threshold ? "It's going to rain" : "It's going to be sunny";
-        return $this->render('weather/highlander_says.html.twig', ['forecast' => $forecast]);
+        $trails = $request->get('trails', 1);
+        $forecasts = [];
+
+        for ($i = 0; $i < $trails; $i++) {
+            $draw = random_int(0, 10);
+            $forecast = $draw < $threshold ? "It's going to rain" : "It's going to be sunny";
+            $forecasts[] = $forecast;
+        }
+        return $this->render('weather/highlander_says.html.twig', ['forecasts' => $forecasts]);
     }
 
     #[Route('/highlander-says/{guess}')]
@@ -40,6 +47,6 @@ class WeatherController extends AbstractController
             throw $this->createNotFoundException('The guess is not found.');
         }
         $forecast = "It's going to $guess";
-        return $this->render('weather/highlander_says.html.twig', ['forecast' => $forecast]);
+        return $this->render('weather/highlander_says.html.twig', ['forecasts' => [$forecast]]);
     }
 }
