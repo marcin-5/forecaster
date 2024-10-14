@@ -1,0 +1,20 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Highlander Says{% endblock %}
+
+{% block body %}
+    <h1>Highlander says</h1>
+    <p>{{ forecast }}</p>
+
+    <nav>
+        <a href="{{ path('app_weather_highlandersays', {'threshold':6}) }}">Try again!</a>
+    </nav>
+{% endblock %}
+
+{% block javascripts %}
+    {{ parent() }}
+    <script>
+        const route = "{{ url('app_weather_highlandersays')|escape('js') }}";
+        console.log(route);
+    </script>
+{% endblock %}
