@@ -32,9 +32,13 @@ class WeatherController extends AbstractController
         return $this->render('weather/highlander_says.html.twig', ['forecast' => $forecast]);
     }
 
-    #[Route('/weather/highlander-says/{guess}')]
+    #[Route('/highlander-says/{guess}')]
     public function highlanderSaysGuess(string $guess): Response
     {
+        $available = ['rain', 'snow', 'hail'];
+        if (!in_array($guess, $available)) {
+            throw $this->createNotFoundException('The guess is not found.');
+        }
         $forecast = "It's going to $guess";
         return $this->render('weather/highlander_says.html.twig', ['forecast' => $forecast]);
     }
