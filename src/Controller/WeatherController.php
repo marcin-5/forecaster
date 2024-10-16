@@ -16,9 +16,14 @@ class WeatherController extends AbstractController
 {
     #[Route('/highlander-says/api')]
     public function highlanderSaysApi(
-        #[MapQueryString] HighlanderApiDTO $dto,
+        #[MapQueryString] ?HighlanderApiDTO $dto = null,
     ): Response
     {
+        if (!$dto) {
+            $dto = new HighlanderApiDTO();
+            $dto->threshold = 5;
+            $dto->trials = 1;
+        }
         $forecasts = [];
 
         for ($i = 0; $i < $dto->trials; $i++) {
