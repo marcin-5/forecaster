@@ -3,11 +3,12 @@ declare(strict_types=1);
 
 namespace App\Controller;
 
+use App\Model\HighlanderApiDTO;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\JsonResponse;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
-use Symfony\Component\HttpKernel\Attribute\MapQueryParameter;
+use Symfony\Component\HttpKernel\Attribute\MapQueryString;
 use Symfony\Component\Routing\Annotation\Route;
 
 #[Route('/weather')]
@@ -15,20 +16,19 @@ class WeatherController extends AbstractController
 {
     #[Route('/highlander-says/api')]
     public function highlanderSaysApi(
-        #[MapQueryParameter] int $threshold = 5,
-        #[MapQueryParameter] int $trails = 1
+        #[MapQueryString] HighlanderApiDTO $dto,
     ): Response
     {
         $forecasts = [];
 
-        for ($i = 0; $i < $trails; $i++) {
+        for ($i = 0; $i < $dto->trials; $i++) {
             $draw = random_int(0, 10);
-            $forecast = $draw < $threshold ? "It's going to rain" : "It's going to be sunny";
+            $forecast = $draw < $dto->threshold ? "It's going to rain" : "It's going to be sunny";
             $forecasts[] = $forecast;
         }
         $json = [
             'forecasts' => $forecasts,
-            'threshold' => $threshold,
+            'threshold' => $dto->threshold,
         ];
         return new JsonResponse($json);
     }
