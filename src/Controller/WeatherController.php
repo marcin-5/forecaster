@@ -15,10 +15,19 @@ use Symfony\Component\Routing\Generator\UrlGeneratorInterface;
 class WeatherController extends AbstractController
 {
     #[Route('/highlander-says/api')]
-    public function highlanderSaysApi(#[MapQueryParameter] int $threshold = 5): Response
+    public function highlanderSaysApi(
+        #[MapQueryParameter] int $threshold = 5,
+        #[MapQueryParameter] int $trails = 1
+    ): Response
     {
-        $draw = random_int(0, 10);
-        $json = ['forecast' => $draw < $threshold ? "It's going to rain" : "It's going to be sunny",
+        $forecasts = [];
+
+        for ($i = 0; $i < $trails; $i++) {
+            $draw = random_int(0, 10);
+            $forecast = $draw < $threshold ? "It's going to rain" : "It's going to be sunny";
+            $forecasts[] = $forecast;
+        }
+        $json = ['forecasts' => $forecasts,
             'threshold' => $threshold,
             'self' => $this->generateUrl('app_weather_highlandersaysapi',
                 ['threshold' => $threshold],
