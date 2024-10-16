@@ -9,7 +9,6 @@ use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\HttpKernel\Attribute\MapQueryParameter;
 use Symfony\Component\Routing\Annotation\Route;
-use Symfony\Component\Routing\Generator\UrlGeneratorInterface;
 
 #[Route('/weather')]
 class WeatherController extends AbstractController
@@ -27,12 +26,10 @@ class WeatherController extends AbstractController
             $forecast = $draw < $threshold ? "It's going to rain" : "It's going to be sunny";
             $forecasts[] = $forecast;
         }
-        $json = ['forecasts' => $forecasts,
+        $json = [
+            'forecasts' => $forecasts,
             'threshold' => $threshold,
-            'self' => $this->generateUrl('app_weather_highlandersaysapi',
-                ['threshold' => $threshold],
-                UrlGeneratorInterface::ABSOLUTE_URL
-            )];
+        ];
         return new JsonResponse($json);
     }
 
