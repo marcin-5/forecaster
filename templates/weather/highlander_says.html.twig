@@ -4,10 +4,17 @@
 
 {% block body %}
     <h1>Highlander says</h1>
+
+    {% for message in app.flashes('info') %}
+        <div class="flash-info">
+            Info: {{ message }}
+        </div>
+    {% endfor %}
+
     {% for forecast in forecasts %}
         <p>{{ forecast }}</p>
     {% endfor %}
-    
+
     {% if threshold %}<p>Threshold: {{ threshold }}</p>{% endif %}
     <nav>
         <a href="{{ path('app_weather_highlandersays', {'threshold':6}) }}">Try again!</a>
