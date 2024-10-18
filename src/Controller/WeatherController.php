@@ -9,6 +9,7 @@ use Symfony\Component\HttpFoundation\JsonResponse;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\RequestStack;
 use Symfony\Component\HttpFoundation\Response;
+use Symfony\Component\HttpKernel\Attribute\MapQueryParameter;
 use Symfony\Component\HttpKernel\Attribute\MapQueryString;
 use Symfony\Component\Routing\Annotation\Route;
 
@@ -41,9 +42,10 @@ class WeatherController extends AbstractController
 
     #[Route('/highlander-says/{threshold<\d+>}')]
     public function highlanderSays(
-        Request      $request,
-        RequestStack $requestStack,
-        ?int         $threshold = null,
+        Request                      $request,
+        RequestStack                 $requestStack,
+        ?int                         $threshold = null,
+        #[MapQueryParameter] ?string $_format = 'html',
     ): Response
     {
         $session = $requestStack->getSession();
@@ -54,18 +56,20 @@ class WeatherController extends AbstractController
             $threshold = $session->get('threshold', 5);
         }
 
-        $trails = $request->get('trails', 1);
+        $trials = $request->get('trials', 1);
         $forecasts = [];
 
-        for ($i = 0; $i < $trails; $i++) {
+        for ($i = 0; $i < $trials; $i++) {
             $draw = random_int(0, 10);
             $forecast = $draw < $threshold ? "It's going to rain" : "It's going to be sunny";
             $forecasts[] = $forecast;
         }
-        return $this->render('weather/highlander_says.html.twig', [
+
+        $html = $this->renderView("weather/highlander_says.{$_format}.twig", [
             'forecasts' => $forecasts,
             'threshold' => $threshold,
         ]);
+        return new Response($html);
     }
 
     #[Route('/highlander-says/{guess}')]

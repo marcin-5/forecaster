@@ -1,0 +1,9 @@
+{
+    "forecasts": [
+        {% for forecast in forecasts %}
+        "{{ forecast }}"
+        {% if not loop.last %},
+        {% endif %}
+        {% endfor %}
+    ]
+}
