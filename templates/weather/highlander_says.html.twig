@@ -5,6 +5,8 @@
 {% block body %}
     <h1>Highlander says</h1>
 
+    {% dump(forecasts) %}
+
     {% for message in app.flashes('info') %}
         <div class="flash-info">
             Info: {{ message }}
