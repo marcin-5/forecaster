@@ -3,6 +3,7 @@
 namespace App\Controller;
 
 use App\Entity\Location;
+use App\Repository\LocationRepository;
 use Doctrine\ORM\EntityManagerInterface;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\JsonResponse;
@@ -27,6 +28,23 @@ class LocationController extends AbstractController
 
         return new JsonResponse([
             'id' => $location->getId(),
+        ]);
+    }
+
+    #[Route('/edit')]
+    public function edit(
+        LocationRepository     $locationRepository,
+        EntityManagerInterface $entityManager,
+    ): JsonResponse
+    {
+        $location = $locationRepository->find(6);
+        $location->setName('KIELCE');
+
+        $entityManager->flush();
+
+        return new JsonResponse([
+            'id' => $location->getId(),
+            'name' => $location->getName(),
         ]);
     }
 }
