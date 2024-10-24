@@ -63,6 +63,9 @@ class LocationController extends AbstractController
     ): JsonResponse
     {
         $location = $locationRepository->findOneByName($name);
+        if (!$location) {
+            throw $this->createNotFoundException();
+        }
 
         $json = [
             'id' => $location->getId(),

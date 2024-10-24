@@ -33,7 +33,18 @@ class LocationRepository extends ServiceEntityRepository
             $em->flush();
         }
     }
-    
+
+    public function findOneByName(string $name): ?Location
+    {
+        $qb = $this->createQueryBuilder('l');
+        $qb
+            ->where('l.name = :name')
+            ->setParameter('name', $name);
+
+        $query = $qb->getQuery();
+        return $query->getOneOrNullResult();
+    }
+
     //    /**
     //     * @return Location[] Returns an array of Location objects
     //     */
