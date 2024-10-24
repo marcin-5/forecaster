@@ -4,7 +4,6 @@ namespace App\Controller;
 
 use App\Entity\Location;
 use App\Repository\LocationRepository;
-use Doctrine\ORM\EntityManagerInterface;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\JsonResponse;
 use Symfony\Component\Routing\Attribute\Route;
@@ -13,7 +12,7 @@ use Symfony\Component\Routing\Attribute\Route;
 class LocationController extends AbstractController
 {
     #[Route('/create')]
-    public function create(EntityManagerInterface $entityManager): JsonResponse
+    public function create(LocationRepository $locationRepository): JsonResponse
     {
         $location = new Location();
         $location
@@ -22,9 +21,7 @@ class LocationController extends AbstractController
             ->setLatitude(50.8660773)
             ->setLongitude(20.6285677);
 
-        $entityManager->persist($location);
-
-        $entityManager->flush();
+        $locationRepository->save($location, true);
 
         return new JsonResponse([
             'id' => $location->getId(),
@@ -33,14 +30,13 @@ class LocationController extends AbstractController
 
     #[Route('/edit')]
     public function edit(
-        LocationRepository     $locationRepository,
-        EntityManagerInterface $entityManager,
+        LocationRepository $locationRepository,
     ): JsonResponse
     {
-        $location = $locationRepository->find(6);
+        $location = $locationRepository->find(7);
         $location->setName('KIELCE');
 
-        $entityManager->flush();
+        $locationRepository->save($location, true);
 
         return new JsonResponse([
             'id' => $location->getId(),
