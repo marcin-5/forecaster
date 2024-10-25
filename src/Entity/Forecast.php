@@ -21,7 +21,7 @@ class Forecast
     private ?string $temperatureCelsius = null;
 
     #[ORM\Column(type: Types::DECIMAL, precision: 3, scale: 1)]
-    private ?string $flTemperature = null;
+    private ?string $flTemperatureCelsius = null;
 
     #[ORM\Column(nullable: true)]
     private ?int $pressure = null;
@@ -74,14 +74,14 @@ class Forecast
         return $this;
     }
 
-    public function getFlTemperature(): ?string
+    public function getFlTemperatureCelsius(): ?string
     {
-        return $this->flTemperature;
+        return $this->flTemperatureCelsius;
     }
 
-    public function setFlTemperature(string $flTemperature): static
+    public function setFlTemperatureCelsius(string $flTemperatureCelsius): static
     {
-        $this->flTemperature = $flTemperature;
+        $this->flTemperatureCelsius = $flTemperatureCelsius;
 
         return $this;
     }
