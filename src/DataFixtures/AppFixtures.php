@@ -27,7 +27,7 @@ class AppFixtures extends Fixture
             52.5200,
             13.4050
         );
-        $this->addBerlinForecasts($manager, $barcelona);
+        $this->addBerlinForecasts($manager, $berlin);
 
         $stettin = $this->addLocation(
             $manager,
@@ -108,7 +108,7 @@ class AppFixtures extends Fixture
         $forecast
             ->setDate(new \DateTime('2025-01-01'))
             ->setLocation($berlin)
-            ->setTemperatureCelsius(11)
+            ->setTemperatureCelsius(11.5)
             ->setFlTemperatureCelsius(9)
             ->setPressure(989)
             ->setHumidity(92)
