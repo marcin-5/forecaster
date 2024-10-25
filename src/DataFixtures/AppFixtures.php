@@ -61,7 +61,7 @@ class AppFixtures extends Fixture
     {
         $forecast = new Forecast();
         $forecast
-            ->setDate(new \DateTime('2024-01-01'))
+            ->setDate(new \DateTime('2025-01-01'))
             ->setLocation($barcelona)
             ->setTemperatureCelsius(23)
             ->setFlTemperatureCelsius(25)
@@ -75,7 +75,7 @@ class AppFixtures extends Fixture
 
         $forecast = new Forecast();
         $forecast
-            ->setDate(new \DateTime('2024-01-02'))
+            ->setDate(new \DateTime('2025-01-02'))
             ->setLocation($barcelona)
             ->setTemperatureCelsius(20)
             ->setFlTemperatureCelsius(17)
@@ -89,7 +89,7 @@ class AppFixtures extends Fixture
 
         $forecast = new Forecast();
         $forecast
-            ->setDate(new \DateTime('2024-01-03'))
+            ->setDate(new \DateTime('2025-01-03'))
             ->setLocation($barcelona)
             ->setTemperatureCelsius(21)
             ->setFlTemperatureCelsius(22)
@@ -106,7 +106,7 @@ class AppFixtures extends Fixture
     {
         $forecast = new Forecast();
         $forecast
-            ->setDate(new \DateTime('2024-01-01'))
+            ->setDate(new \DateTime('2025-01-01'))
             ->setLocation($berlin)
             ->setTemperatureCelsius(11)
             ->setFlTemperatureCelsius(9)
@@ -120,7 +120,7 @@ class AppFixtures extends Fixture
 
         $forecast = new Forecast();
         $forecast
-            ->setDate(new \DateTime('2024-01-02'))
+            ->setDate(new \DateTime('2025-01-02'))
             ->setLocation($berlin)
             ->setTemperatureCelsius(10)
             ->setFlTemperatureCelsius(10)
@@ -134,7 +134,7 @@ class AppFixtures extends Fixture
 
         $forecast = new Forecast();
         $forecast
-            ->setDate(new \DateTime('2024-01-03'))
+            ->setDate(new \DateTime('2025-01-03'))
             ->setLocation($berlin)
             ->setTemperatureCelsius(15)
             ->setFlTemperatureCelsius(15)
@@ -151,7 +151,7 @@ class AppFixtures extends Fixture
     {
         $forecast = new Forecast();
         $forecast
-            ->setDate(new \DateTime('2024-01-01'))
+            ->setDate(new \DateTime('2025-01-01'))
             ->setLocation($stettin)
             ->setTemperatureCelsius(11)
             ->setFlTemperatureCelsius(9)
@@ -165,7 +165,7 @@ class AppFixtures extends Fixture
 
         $forecast = new Forecast();
         $forecast
-            ->setDate(new \DateTime('2024-01-02'))
+            ->setDate(new \DateTime('2025-01-02'))
             ->setLocation($stettin)
             ->setTemperatureCelsius(10)
             ->setFlTemperatureCelsius(10)
@@ -179,7 +179,7 @@ class AppFixtures extends Fixture
 
         $forecast = new Forecast();
         $forecast
-            ->setDate(new \DateTime('2024-01-03'))
+            ->setDate(new \DateTime('2025-01-03'))
             ->setLocation($stettin)
             ->setTemperatureCelsius(15)
             ->setFlTemperatureCelsius(15)
