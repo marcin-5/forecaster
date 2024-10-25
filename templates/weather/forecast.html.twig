@@ -3,7 +3,7 @@
 {% block content %}
     <div class="row mt-3">
         <div class="col">
-            <h1>Forecast for {{ city }}, {{ countryCode }}</h1>
+            <h1>Forecast for {{ location.name }}, {{ location.countryCode }}</h1>
         </div>
     </div>
 
@@ -37,7 +37,7 @@
                                 <dd>{{ forecast.humidity }}%</dd>
 
                                 <dt>Wind</dt>
-                                <dd>{{ forecast.wind_speed }} m/s</dd>
+                                <dd>{{ forecast.windSpeed }} m/s</dd>
 
                                 <dt>Cloudiness</dt>
                                 <dd>{{ forecast.cloudiness }}%</dd>

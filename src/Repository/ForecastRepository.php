@@ -3,6 +3,7 @@
 namespace App\Repository;
 
 use App\Entity\Forecast;
+use App\Entity\Location;
 use Doctrine\Bundle\DoctrineBundle\Repository\ServiceEntityRepository;
 use Doctrine\Persistence\ManagerRegistry;
 
@@ -16,28 +17,21 @@ class ForecastRepository extends ServiceEntityRepository
         parent::__construct($registry, Forecast::class);
     }
 
-    //    /**
-    //     * @return Forecast[] Returns an array of Forecast objects
-    //     */
-    //    public function findByExampleField($value): array
-    //    {
-    //        return $this->createQueryBuilder('f')
-    //            ->andWhere('f.exampleField = :val')
-    //            ->setParameter('val', $value)
-    //            ->orderBy('f.id', 'ASC')
-    //            ->setMaxResults(10)
-    //            ->getQuery()
-    //            ->getResult()
-    //        ;
-    //    }
 
-    //    public function findOneBySomeField($value): ?Forecast
-    //    {
-    //        return $this->createQueryBuilder('f')
-    //            ->andWhere('f.exampleField = :val')
-    //            ->setParameter('val', $value)
-    //            ->getQuery()
-    //            ->getOneOrNullResult()
-    //        ;
-    //    }
+    /**
+     * Finds the forecast data for a given location.
+     *
+     * @param Location $location The location entity for which to fetch the forecast.
+     * @return array The found forecast data for the given location.
+     */
+    public function findForecastByLocation(Location $location): array
+    {
+        return $this->createQueryBuilder('f')
+            ->where('f.location = :location')
+            ->setParameter('location', $location)
+            ->andWhere('f.date >= CURRENT_DATE()')
+            ->orderBy('f.date', 'ASC')
+            ->getQuery()
+            ->getResult();
+    }
 }
