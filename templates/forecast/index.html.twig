@@ -10,8 +10,8 @@
         <tr>
             <th>Id</th>
             <th>Date</th>
-            <th>TemperatureCelsius</th>
-            <th>FlTemperatureCelsius</th>
+            <th>Temperature</th>
+            <th>Feels Like</th>
             <th>Pressure</th>
             <th>Humidity</th>
             <th>WindSpeed</th>
@@ -26,14 +26,14 @@
             <tr>
                 <td>{{ forecast.id }}</td>
                 <td>{{ forecast.date ? forecast.date|date('Y-m-d') : '' }}</td>
-                <td>{{ forecast.temperatureCelsius }}</td>
-                <td>{{ forecast.flTemperatureCelsius }}</td>
+                <td>{{ forecast.temperatureCelsius }}&deg;C</td>
+                <td>{{ forecast.flTemperatureCelsius }}&deg;C</td>
                 <td>{{ forecast.pressure }}</td>
                 <td>{{ forecast.humidity }}</td>
                 <td>{{ forecast.windSpeed }}</td>
                 <td>{{ forecast.windDeg }}</td>
                 <td>{{ forecast.cloudiness }}</td>
-                <td>{{ forecast.icon }}</td>
+                <td><i class="bi-{{ forecast.icon }}"></i></td>
                 <td>
                     <a href="{{ path('app_forecast_show', {'id': forecast.id}) }}">show</a>
                     <a href="{{ path('app_forecast_edit', {'id': forecast.id}) }}">edit</a>
