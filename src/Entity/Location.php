@@ -44,30 +44,6 @@ class Location
         return $this->id;
     }
 
-    public function getName(): ?string
-    {
-        return $this->name;
-    }
-
-    public function setName(string $name): static
-    {
-        $this->name = $name;
-
-        return $this;
-    }
-
-    public function getCountryCode(): ?string
-    {
-        return $this->countryCode;
-    }
-
-    public function setCountryCode(string $countryCode): static
-    {
-        $this->countryCode = $countryCode;
-
-        return $this;
-    }
-
     public function getLatitude(): ?string
     {
         return $this->latitude;
@@ -118,6 +94,35 @@ class Location
                 $forecast->setLocation(null);
             }
         }
+
+        return $this;
+    }
+
+    public function __toString(): string
+    {
+        return "{$this->getName()}, {$this->getCountryCode()}";
+    }
+
+    public function getName(): ?string
+    {
+        return $this->name;
+    }
+
+    public function setName(string $name): static
+    {
+        $this->name = $name;
+
+        return $this;
+    }
+
+    public function getCountryCode(): ?string
+    {
+        return $this->countryCode;
+    }
+
+    public function setCountryCode(string $countryCode): static
+    {
+        $this->countryCode = $countryCode;
 
         return $this;
     }

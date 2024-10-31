@@ -3,8 +3,6 @@
 namespace App\Form;
 
 use App\Entity\Forecast;
-use App\Entity\Location;
-use Symfony\Bridge\Doctrine\Form\Type\EntityType;
 use Symfony\Component\Form\AbstractType;
 use Symfony\Component\Form\FormBuilderInterface;
 use Symfony\Component\OptionsResolver\OptionsResolver;
@@ -25,11 +23,7 @@ class ForecastType extends AbstractType
             ->add('windDeg')
             ->add('cloudiness')
             ->add('icon')
-            ->add('location', EntityType::class, [
-                'class' => Location::class,
-                'choice_label' => 'id',
-            ])
-        ;
+            ->add('location');
     }
 
     public function configureOptions(OptionsResolver $resolver): void
