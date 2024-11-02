@@ -4,6 +4,7 @@ declare(strict_types=1);
 namespace App\Controller;
 
 use App\Model\HighlanderApiDTO;
+use App\Service\Highlander;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\JsonResponse;
 use Symfony\Component\HttpFoundation\Request;
@@ -21,21 +22,17 @@ class WeatherController extends AbstractController
 {
     #[Route('/highlander-says/api')]
     public function highlanderSaysApi(
+        Highlander                          $highlander,
         #[MapQueryString] ?HighlanderApiDTO $dto = null,
     ): Response
     {
         if (!$dto) {
             $dto = new HighlanderApiDTO();
-            $dto->threshold = 5;
+            $dto->threshold = 50;
             $dto->trials = 1;
         }
-        $forecasts = [];
 
-        for ($i = 0; $i < $dto->trials; $i++) {
-            $draw = random_int(0, 10);
-            $forecast = $draw < $dto->threshold ? "It's going to rain" : "It's going to be sunny";
-            $forecasts[] = $forecast;
-        }
+        $forecasts = $highlander->generateWeatherForecasts($dto->threshold, $dto->trials);
         $json = [
             'forecasts' => $forecasts,
             'threshold' => $dto->threshold,
@@ -48,6 +45,7 @@ class WeatherController extends AbstractController
         Request                      $request,
         RequestStack                 $requestStack,
         TranslatorInterface          $translator,
+        Highlander                   $highlander,
         ?int                         $threshold = null,
         #[MapQueryParameter] ?string $_format = 'html',
     ): Response
@@ -62,18 +60,11 @@ class WeatherController extends AbstractController
                 ])
             );
         } else {
-            $threshold = $session->get('threshold', 5);
+            $threshold = $session->get('threshold', 50);
         }
+        $trials = (int)$request->get('trials', 1);
 
-        $trials = $request->get('trials', 1);
-        $forecasts = [];
-
-        for ($i = 0; $i < $trials; $i++) {
-            $draw = random_int(0, 10);
-            $forecast = $draw < $threshold ? "It's going to rain" : "It's going to be sunny";
-            $forecasts[] = $forecast;
-        }
-
+        $forecasts = $highlander->generateWeatherForecasts($threshold, $trials);
         $html = $this->renderView("weather/highlander_says.{$_format}.twig", [
             'forecasts' => $forecasts,
             'threshold' => $threshold,

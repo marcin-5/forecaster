@@ -19,7 +19,7 @@
 
     {% if threshold %}<p>Threshold: {{ threshold }}</p>{% endif %}
     <nav>
-        <a href="{{ path('app_weather_highlandersays', {'threshold':6}) }}">Try again!</a>
+        <a href="{{ path('app_weather_highlandersays', {'threshold':55, 'trials':5}) }}">Try again!</a>
     </nav>
 {% endblock %}
 
