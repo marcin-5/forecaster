@@ -1,4 +1,5 @@
-forecast
+forecast,threshold
 {% for forecast in forecasts %}
-{{ forecast | raw }}
+{{ forecast | raw }},
+{{- threshold }}
 {% endfor %}
