@@ -2,8 +2,10 @@
 
 namespace App\Command;
 
-use App\Repository\ForecastRepository;
-use App\Repository\LocationRepository;
+use App\Entity\Forecast;
+use App\Entity\Location;
+use App\Exception\LocationNotFoundException;
+use App\Service\ForecastService;
 use Symfony\Component\Console\Attribute\AsCommand;
 use Symfony\Component\Console\Command\Command;
 use Symfony\Component\Console\Input\InputArgument;
@@ -18,8 +20,7 @@ use Symfony\Component\Console\Style\SymfonyStyle;
 class ForecastLocationNameCommand extends Command
 {
     public function __construct(
-        private ForecastRepository $forecastRepository,
-        private LocationRepository $locationRepository,
+        private ForecastService $forecastService,
     )
     {
         parent::__construct();
@@ -37,15 +38,17 @@ class ForecastLocationNameCommand extends Command
         $io = new SymfonyStyle($input, $output);
         $countryCode = $input->getArgument('countryCode');
         $cityName = $input->getArgument('cityName');
-        $location = $this->locationRepository->findOneBy([
-            'countryCode' => $countryCode,
-            'name' => $cityName
-        ]);
-        if (!$location) {
-            throw new \Exception("Location $countryCode/$cityName not found");
+
+        try {
+            /** @var $location Location */
+            /** @var $forecasts Forecast[] */
+            list($location, $forecasts) = $this->forecastService->getForecastsForLocationName($countryCode, $cityName);
+        } catch (LocationNotFoundException $e) {
+            $io->error("Location not found: $cityName, $countryCode");
+            return Command::FAILURE;
         }
+
         $forecastsArray = [];
-        $forecasts = $this->forecastRepository->findForecastByLocation($location);
         foreach ($forecasts as $forecast) {
             $forecastsArray[] = [
                 $forecast->getDate()->format('Y-m-d'),
@@ -60,7 +63,7 @@ class ForecastLocationNameCommand extends Command
             ];
         }
 
-        $io->title("Forecast for $cityName, $countryCode");
+        $io->title("Forecast for {$location->getName()}, {$location->getCountryCode()}");
         $io->horizontalTable([
             'Date',
             'Temperature',
