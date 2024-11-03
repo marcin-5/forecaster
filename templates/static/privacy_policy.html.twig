@@ -1,6 +1,9 @@
-{% extends 'base.html.twig' %}
+{% extends 'layout_boxed.html.twig' %}
 
-{% block body %}
+{% block content %}
+
+    <p>{{ highlander.generateWeatherForecasts | first }}</p>
+    
     <p>Lorem ipsum dolor sit amet, consectetur adipisicing elit. Ad alias aliquam excepturi exercitationem expedita fuga
         impedit porro quis quos sapiente, tempora temporibus totam unde vel voluptas voluptate voluptatum. Aperiam,
         harum!</p>
