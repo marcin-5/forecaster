@@ -6,6 +6,6 @@ namespace App\Model;
 
 class HighlanderApiDTO
 {
-    public int $threshold = 5;
+    public int $threshold = 50;
     public int $trials = 1;
 }
