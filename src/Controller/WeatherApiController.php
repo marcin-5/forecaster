@@ -33,4 +33,30 @@ class WeatherApiController extends AbstractController
 
         return $response;
     }
+    
+    #[Route('/jsont/{id}')]
+    public function jsonTwigAction(Location $location): Response
+    {
+        $content = $this->renderView('weather_api/json_twig.json.twig', [
+            'location' => $location,
+        ]);
+
+        $response = new Response($content);
+        $response->headers->set('Content-Type', 'application/json');
+
+        return $response;
+    }
+
+    #[Route('/csvt/{id}')]
+    public function csvTwigAction(Location $location): Response
+    {
+        $content = $this->renderView('weather_api/csv_twig.csv.twig', [
+            'location' => $location,
+        ]);
+
+        $response = new Response($content);
+        $response->headers->set('Content-Type', 'text/csv');
+
+        return $response;
+    }
 }
