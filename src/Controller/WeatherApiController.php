@@ -3,7 +3,11 @@
 namespace App\Controller;
 
 use App\Entity\Location;
+use App\Repository\ForecastRepository;
+use Doctrine\ORM\EntityManagerInterface;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
+use Symfony\Component\HttpFoundation\JsonResponse;
+use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Attribute\Route;
 use Symfony\Component\Serializer\SerializerInterface;
@@ -95,5 +99,31 @@ class WeatherApiController extends AbstractController
 
 
         return $this->json($location);
+    }
+
+    #[Route("/forecast/{id}/{date}", methods: "PATCH")]
+    public function patchForecastsPayloadAction(
+        Request                $request,
+        ForecastRepository     $forecastRepository,
+        EntityManagerInterface $entityManager,
+        int                    $id,
+        string                 $date,
+    ): JsonResponse
+    {
+        $payload = $request->toArray();
+        $celsius = $payload['celsius'];
+
+        $forecast = $forecastRepository->findOneBy([
+            'location' => $id,
+            'date' => new \DateTime($date),
+        ]);
+        if (!$forecast) {
+            throw $this->createNotFoundException();
+        }
+
+        $forecast->setCelsius($celsius);
+        $entityManager->flush();
+
+        return $this->json(['success' => true]);
     }
 }
