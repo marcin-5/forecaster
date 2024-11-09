@@ -5,6 +5,7 @@ namespace App\Entity;
 use App\Repository\ForecastRepository;
 use Doctrine\DBAL\Types\Types;
 use Doctrine\ORM\Mapping as ORM;
+use Symfony\Component\Serializer\Attribute\Groups;
 
 #[ORM\Entity(repositoryClass: ForecastRepository::class)]
 class Forecast
@@ -15,12 +16,15 @@ class Forecast
     private ?int $id = null;
 
     #[ORM\Column(type: Types::DATE_MUTABLE)]
+    #[Groups(['api'])]
     private ?\DateTimeInterface $date = null;
 
     #[ORM\Column(type: Types::DECIMAL, precision: 3, scale: 1)]
+    #[Groups(['api'])]
     private ?string $temperatureCelsius = null;
 
     #[ORM\Column(type: Types::DECIMAL, precision: 3, scale: 1)]
+    #[Groups(['api'])]
     private ?string $flTemperatureCelsius = null;
 
     #[ORM\Column(nullable: true)]
@@ -39,6 +43,7 @@ class Forecast
     private ?int $cloudiness = null;
 
     #[ORM\Column(length: 255)]
+    #[Groups(['api'])]
     private ?string $icon = null;
 
     #[ORM\ManyToOne(inversedBy: 'forecasts')]
