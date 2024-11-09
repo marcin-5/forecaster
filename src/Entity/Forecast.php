@@ -67,6 +67,11 @@ class Forecast
         return $this;
     }
 
+    public function getTemperatureFahrenheit(): ?string
+    {
+        return round(($this->getTemperatureCelsius() * 9 / 5) + 32, 1);
+    }
+
     public function getTemperatureCelsius(): ?string
     {
         return $this->temperatureCelsius;
@@ -77,6 +82,11 @@ class Forecast
         $this->temperatureCelsius = $temperatureCelsius;
 
         return $this;
+    }
+
+    public function getFlTemperatureFahrenheit(): ?string
+    {
+        return round(($this->getFlTemperatureCelsius() * 9 / 5) + 32, 1);
     }
 
     public function getFlTemperatureCelsius(): ?string
